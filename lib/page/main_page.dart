@@ -31,13 +31,13 @@ class _MainPageState extends State<MainPage> {
                     fontFamily: 'MontserratBold',
                     fontSize: 150.0,
                     fontWeight: FontWeight.bold,
-                    // shadows: [
-                    //   Shadow(
-                    //     offset: Offset(5.0, 5.0),
-                    //     blurRadius: 10.0,
-                    //     color: Colors.black38,
-                    //   ),
-                    // ],
+                    shadows: [
+                      Shadow(
+                        offset: Offset(5.0, 5.0),
+                        blurRadius: 10.0,
+                        color: Colors.black38,
+                      ),
+                    ],
                   ),
                 ),
                 Text(
@@ -47,13 +47,13 @@ class _MainPageState extends State<MainPage> {
                     fontFamily: 'MontserratBold',
                     fontSize: 150.0,
                     fontWeight: FontWeight.bold,
-                    // shadows: [
-                    //   Shadow(
-                    //     offset: Offset(5.0, 5.0),
-                    //     blurRadius: 10.0,
-                    //     color: Colors.black38,
-                    //   ),
-                    // ],
+                    shadows: [
+                      Shadow(
+                        offset: Offset(5.0, 5.0),
+                        blurRadius: 10.0,
+                        color: Colors.black38,
+                      ),
+                    ],
                   ),
                 ),
               ],

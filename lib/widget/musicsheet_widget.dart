@@ -7,8 +7,6 @@ import 'package:haring3/controller/data_controller.dart';
 // Global Variables
 
 final DataController contData = Get.put(DataController());
-const double sheetWidth = 540.0;
-const double sheetHeight = 700.0;
 
 // Global Methods
 
@@ -74,6 +72,7 @@ class SheetScrollView extends StatefulWidget {
 class SheetScrollViewState extends State<SheetScrollView> {
   @override
   Widget build(BuildContext context) {
+
     return SingleChildScrollView(
       child: Center(
         child: Column(
@@ -100,6 +99,10 @@ class _MusicSheetWidgetState extends State<MusicSheetWidget> {
   @override
   Widget build(BuildContext context) {
     SheetScrollViewState? parent = context.findAncestorStateOfType<SheetScrollViewState>();
+
+    Size size = MediaQuery.of(context).size;
+    double sheetWidth = size.width * 0.45;
+    double sheetHeight = size.height * 0.8;
 
     return Container(
       key: ValueKey(widget.datum.num),

@@ -12,7 +12,6 @@ const double _sheetHeight = 130.0;
 
 final contData = Get.put(DataController());
 
-
 class Sidebar extends StatefulWidget {
   const Sidebar({Key? key, required this.isLeader}) : super(key: key);
 
