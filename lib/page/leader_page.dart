@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:haring3/page/sheet_modification_page.dart';
 
-class LeaderPage extends StatefulWidget {
+class LeaderPage extends StatelessWidget {
   const LeaderPage({Key? key}) : super(key: key);
-
-  @override
-  LeaderPageState createState() => LeaderPageState();
-}
-
-class LeaderPageState extends State<LeaderPage> {
 
   final bool isLeader = true;
 

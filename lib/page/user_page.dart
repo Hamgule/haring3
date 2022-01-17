@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:haring3/page/sheet_modification_page.dart';
 
-class UserPage extends StatefulWidget {
+class UserPage extends StatelessWidget {
   const UserPage({Key? key}) : super(key: key);
-
-  @override
-  UserPageState createState() => UserPageState();
-}
-
-class UserPageState extends State<UserPage> {
 
   final bool isLeader = false;
 

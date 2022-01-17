@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:haring3/config/palette.dart';
 import 'package:haring3/controller/data_controller.dart';
-import 'package:haring3/page/leader_page.dart';
+import 'package:haring3/page/sheet_modification_page.dart';
+import 'package:haring3/widget/musicsheet_widget.dart';
 import 'package:reorderables/reorderables.dart';
 
 // Global Variables
@@ -11,6 +13,10 @@ const double _sheetWidth = 100.0;
 const double _sheetHeight = 130.0;
 
 final contData = Get.put(DataController());
+
+void _toggleSelection(int num) {
+  contData.toggleSelection(num);
+}
 
 class Sidebar extends StatefulWidget {
   const Sidebar({Key? key, required this.isLeader}) : super(key: key);
@@ -27,30 +33,6 @@ class _SidebarState extends State<Sidebar> {
 
   List<int> orderList = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _tiles = <Widget>[
-      for (Datum datum in contData.getData())
-      Container(
-        key: ValueKey('${datum.num}'),
-        width: _sheetWidth,
-        height: _sheetHeight,
-        decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(.5),
-        ),
-        child: Center(
-          child: Text(
-            '${datum.num}',
-            style: TextStyle(
-              fontSize: _fontSize,
-              color: Colors.black.withOpacity(.5),
-            ),
-          ),
-        ),
-      )
-    ];
-  }
 
   void dataReorder(List<int> orderList) {
     RxList<Datum> _orderData = RxList<Datum>([]);
@@ -64,7 +46,47 @@ class _SidebarState extends State<Sidebar> {
 
   @override
   Widget build(BuildContext context) {
-    LeaderPageState? parent = context.findAncestorStateOfType<LeaderPageState>();
+    SheetModificationPageState? parent = context.findAncestorStateOfType<SheetModificationPageState>();
+
+    _tiles = <Widget>[
+      for (Datum datum in contData.getData())
+      GestureDetector(
+        key: ValueKey('${datum.num}'),
+        onTap: () {
+          print(globalKeys[datum.num].currentContext);
+          Scrollable.ensureVisible(
+            globalKeys[datum.num].currentContext!,
+            duration: const Duration(milliseconds: 600),
+            curve: Curves.easeInOut,
+          );
+          Get.back();
+        },
+        onDoubleTap: () {
+          parent!.setState(() {
+            _toggleSelection(datum.num);
+          });
+        },
+        child: AnimatedContainer(
+          width: _sheetWidth,
+          height: _sheetHeight,
+          decoration: BoxDecoration(
+            color: datum.isSelected ?
+            Palette.themeColor1.withOpacity(.5) :
+            Colors.grey.withOpacity(.5),
+          ),
+          duration: const Duration(milliseconds: 300),
+          child: Center(
+            child: Text(
+              '${datum.num}',
+              style: TextStyle(
+                fontSize: _fontSize,
+                color: Colors.black.withOpacity(.5),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ];
 
     void _onReorder(int oldIndex, int newIndex) {
       Widget row = _tiles.removeAt(oldIndex);
@@ -125,11 +147,9 @@ List<Widget> sidebarMusicSheets() {
   }
   if (contData.getData().length % 2 == 1) {
     _list.add(
-      Center(
-        child: ListTile(
-          title: SidebarMusicSheetWidget(
-            datum: contData.getData().last,
-          ),
+      ListTile(
+        title: SidebarMusicSheetWidget(
+          datum: contData.getData().last,
         ),
       ),
     );
@@ -150,19 +170,40 @@ class _SidebarMusicSheetWidgetState extends State<SidebarMusicSheetWidget> {
 
   @override
   Widget build(BuildContext context) {
+    _SidebarState? parent = context.findAncestorStateOfType<_SidebarState>();
 
-    return Container(
-      width: _sheetWidth,
-      height: _sheetHeight,
-      decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(.5),
-      ),
+    return GestureDetector(
+      onTap: () {
+        Scrollable.ensureVisible(
+          globalKeys[widget.datum.num].currentContext!,
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.easeInOut,
+        );
+        Get.back();
+      },
+      onDoubleTap: () {
+        parent!.setState(() {
+          contData.toggleSelection(widget.datum.num);
+        });
+      },
       child: Center(
-        child: Text(
-          '${widget.datum.num}',
-          style: TextStyle(
-            fontSize: 30.0,
-            color: Colors.black.withOpacity(.5),
+        child: AnimatedContainer(
+          width: _sheetWidth,
+          height: _sheetHeight,
+          decoration: BoxDecoration(
+            color: widget.datum.isSelected ?
+              Palette.themeColor1.withOpacity(.5) :
+              Colors.grey.withOpacity(.5),
+          ),
+          duration: const Duration(milliseconds: 300),
+          child: Center(
+            child: Text(
+              '${widget.datum.num}',
+              style: TextStyle(
+                fontSize: 30.0,
+                color: Colors.black.withOpacity(.5),
+              ),
+            ),
           ),
         ),
       ),

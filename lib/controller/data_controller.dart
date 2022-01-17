@@ -31,10 +31,9 @@ class DataController extends GetxController {
   }
 
   void toggleSelection(int num) {
+    if (selectedNum.value != num) deselectAll();
     getDataWhere(num).toggleSelection();
     selectedNum(getDataWhere(num).isSelected ? num : -1);
-
-    __printSelected();
   }
 
   void addDatum(Datum datum) {
